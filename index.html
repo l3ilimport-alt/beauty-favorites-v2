@@ -550,6 +550,29 @@ input:focus,select:focus,.fld:focus{border-color:var(--accent)!important;
   mask-image:radial-gradient(closest-side,black 30%,transparent 92%)}
 .card .imgbox img{position:relative;z-index:1}
 .card{overflow:hidden}
+
+/* ═══════════ שכבה 3: מסגרת הלוקבוק ═══════════ */
+.lookbook{max-width:720px;margin:0 auto;background:var(--bg);
+  border-radius:0 0 30px 30px;position:relative;z-index:1}
+@media(min-width:900px){.lookbook{max-width:860px}}
+/* צל על שכבה קבועה ולא על המסגרת: אלמנט גבוה מאוד חורג ממגבלת הציור
+   של הדפדפן וכל מה שמתחת פשוט לא מצויר. */
+.lb-shadow{position:fixed;top:0;bottom:0;left:0;right:0;margin:0 auto;
+  width:100%;max-width:720px;pointer-events:none;z-index:0;
+  box-shadow:0 24px 60px rgba(42,36,32,.18)}
+@media(min-width:900px){.lb-shadow{max-width:860px}}
+/* הרשת בתוך המסגרת מתרווחת פחות */
+.lookbook .grid{max-width:100%;padding:0 16px}
+/* הפסים הדביקים והבאנר מתיישרים לפינות המסגרת */
+.lookbook > .promobar{border-radius:30px 30px 0 0}
+.lookbook .ebanner{border-radius:0}
+.lookbook .ebanner img{border-radius:0}
+/* הפינות העליונות של המסגרת נחתכות יחד עם התוכן */
+.lookbook{border-radius:30px;overflow:hidden}
+.lb-shadow{border-radius:30px}
+/* הרשת בתוך מסגרת צרה — שתי עמודות במקום ארבע */
+@media(min-width:700px){.lookbook .grid{
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}}
 </style>
 </head>
 <body>
@@ -1822,6 +1845,40 @@ if(SB){var _pb=document.getElementById('payBtn');if(_pb)_pb.style.display='';loa
     .observe(document.documentElement, {childList:true, subtree:true});
   addEventListener('load', paintGlow);
   setTimeout(paintGlow, 400);
+})();
+</script>
+
+<script>
+/* עוטף את תוכן העמוד במסגרת הלוקבוק. נעשה בזמן ריצה בכוונה: המבנה בקובץ
+   נשאר בדיוק כפי שהיה, וביטול השכבה הוא מחיקת הבלוק הזה בלבד.
+   הסרגל התחתון והחלוניות הצפות נשארים מחוץ למסגרת כדי שלא ייחתכו. */
+(function(){
+  function wrap(){
+    if (document.querySelector('.lookbook')) return;
+    var body = document.body;
+    var keepOut = function(el){
+      if (el.nodeType !== 1) return false;
+      var c = el.className || '';
+      if (typeof c !== 'string') return false;
+      return /\b(bnav|ov|modal|toast|lb-shadow)\b/.test(c)
+             || el.tagName === 'SCRIPT' || el.tagName === 'STYLE';
+    };
+    var shadow = document.createElement('div');
+    shadow.className = 'lb-shadow';
+    body.insertBefore(shadow, body.firstChild);
+
+    var box = document.createElement('div');
+    box.className = 'lookbook';
+    var kids = [].slice.call(body.childNodes);
+    kids.forEach(function(n){
+      if (n === shadow || keepOut(n)) return;
+      box.appendChild(n);
+    });
+    body.insertBefore(box, shadow.nextSibling);
+  }
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', wrap);
+  else wrap();
 })();
 </script>
 </body>
