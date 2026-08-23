@@ -536,6 +536,20 @@ input:focus,select:focus,.fld:focus{border-color:var(--accent)!important;
 
 /* ── קו ברונזה מתחת לכותרות מדור ── */
 .sec-head,.sec-t{border-bottom-color:var(--border2)}
+
+/* ═══ שכבה 2ב: הילת הצבע מאחורי המוצר ═══
+   זה מה שהיה חסר: בלוקבוק עותק מטושטש ורווי של התמונה זוהר מאחוריה,
+   כך ששפתון אדום מקבל הילה אדומה. בלי זה החיתוך נראה שטוח. */
+.card .imgbox{background:var(--image-bg)!important;overflow:visible;
+  border-radius:14px 14px 0 0}
+.card .imgbox::before{content:'';position:absolute;inset:8%;pointer-events:none;
+  background-image:var(--glow);background-size:contain;background-repeat:no-repeat;
+  background-position:center;filter:blur(22px) saturate(1.6);transform:scale(1.25);
+  opacity:.45;z-index:0;
+  -webkit-mask-image:radial-gradient(closest-side,black 30%,transparent 92%);
+  mask-image:radial-gradient(closest-side,black 30%,transparent 92%)}
+.card .imgbox img{position:relative;z-index:1}
+.card{overflow:hidden}
 </style>
 </head>
 <body>
@@ -1787,6 +1801,27 @@ if(SB){var _pb=document.getElementById('payBtn');if(_pb)_pb.style.display='';loa
     history.replaceState(null,'',location.pathname);
     setTimeout(function(){alert(t(st==='success'?'pay_ok':'pay_fail').replace('{id}','#'+oid));},300);
   }catch(e){}
+})();
+</script>
+
+<script>
+/* הילת הצבע: מזינים לכל תיבת תמונה את התמונה שבתוכה כמשתנה CSS.
+   רץ אחרי כל ציור מחדש של הרשת, ולכן עוקב גם אחרי סינון וחיפוש. */
+(function(){
+  function paintGlow(){
+    document.querySelectorAll('.card .imgbox').forEach(function(box){
+      var im = box.querySelector('img');
+      if (!im || !im.src) return;
+      var v = 'url("' + im.src + '")';
+      if (box.style.getPropertyValue('--glow') !== v)
+        box.style.setProperty('--glow', v);
+    });
+  }
+  var t;
+  new MutationObserver(function(){ clearTimeout(t); t=setTimeout(paintGlow,60); })
+    .observe(document.documentElement, {childList:true, subtree:true});
+  addEventListener('load', paintGlow);
+  setTimeout(paintGlow, 400);
 })();
 </script>
 </body>
