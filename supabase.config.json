@@ -1,0 +1,5 @@
+{
+  "_readme": "חיבור הקטלוג ל-Supabase. שני הערכים האלה ציבוריים ובטוחים לפרסום (publishable/anon בלבד). אחרי מילוי — להריץ python3 catalog/build_catalog.py מחדש. אם נשאר ריק, הקטלוג עובד כמקודם (וואטסאפ עם טקסט בלבד, ללא מלאי חי וללא תשלום).",
+  "url": "https://ieifiducsmiabncwwmiz.supabase.co",
+  "anon_key": "sb_publishable_vvhhk186MODu13GS60Uc0g_PW1HfgQy"
+}

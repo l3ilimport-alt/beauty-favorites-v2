@@ -1,0 +1,9 @@
+upc_key.txt
+_t*.html
+*.pyc
+__pycache__/
+.DS_Store
+**/.DS_Store
+images 2/
+images/* 2/
+images/* 3/

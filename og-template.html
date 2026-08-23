@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1200px;height:630px;overflow:hidden;font-family:'Heebo',sans-serif}
+.card{width:1200px;height:630px;position:relative;
+  background:radial-gradient(120% 100% at 50% -12%, #f4f4f4 0%, #ffffff 58%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.card::before{content:"";position:absolute;inset:28px;border:1.5px solid #171717;border-radius:26px;pointer-events:none}
+.mark{font-family:'Heebo',sans-serif;font-size:26px;letter-spacing:5px;color:#171717;font-weight:500;text-transform:uppercase;margin-bottom:2px;padding-inline-start:5px}
+.rule{width:150px;height:1.6px;background:#171717;margin:12px auto 4px;position:relative}
+.rule::before,.rule::after{content:"";position:absolute;top:-2px;width:6px;height:6px;border-radius:50%;background:#171717}
+.rule::before{left:-12px}.rule::after{right:-12px}
+.biglogo{width:660px;height:auto;display:block;mix-blend-mode:multiply}
+.tag{font-size:29px;color:#3a3a3a;font-weight:400;margin-top:30px;line-height:1.4;padding:0 70px}
+.badge{margin-top:22px;display:inline-block;font-size:20px;font-weight:600;color:#171717;
+  background:#fff;border:1.5px solid #171717;border-radius:40px;padding:9px 30px}
+.strip{position:absolute;bottom:56px;left:0;right:0;display:flex;gap:18px;justify-content:center}
+.thumb{width:94px;height:94px;border-radius:18px;background:#f7f7f7;border:1px solid #e6e6e6;
+  box-shadow:0 8px 22px rgba(0,0,0,.06);display:flex;align-items:center;justify-content:center;padding:9px}
+.thumb img{max-width:100%;max-height:100%;object-fit:contain}
+</style>
+</head>
+<body>
+<div class="card">
+  <img class="biglogo" src="logo-og.png" alt="">
+  <div class="tag">הקולקציה הנבחרת — איפור · טיפוח · שיער · בושם מהמותגים המובילים</div>
+</div>
+</body>
+</html>

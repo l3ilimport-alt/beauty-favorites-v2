@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 150" role="img" aria-label="Beauty Favorites">
+  <text x="180" y="52" text-anchor="middle" font-family="'Heebo',Arial,sans-serif" font-size="26" font-weight="500" letter-spacing="13" fill="#171717">BEAUTY</text>
+  <line x1="120" y1="70" x2="240" y2="70" stroke="#888888" stroke-width="1.4"/>
+  <circle cx="113" cy="70" r="2" fill="#888888"/>
+  <circle cx="247" cy="70" r="2" fill="#888888"/>
+  <text x="180" y="120" text-anchor="middle" font-family="'Cormorant Garamond',Georgia,serif" font-size="58" font-style="italic" font-weight="600" fill="#171717">Favorites</text>
+</svg>
