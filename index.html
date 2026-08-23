@@ -503,8 +503,8 @@ h2,.pd h2{font-family:var(--serif-he);font-weight:700;letter-spacing:.005em}
    נגזר מהניתוח של קטלוג תום (catalog/שפת העיצוב של תום.md).
    הכל תוספת — אין עריכה של כלל קיים, ואפשר למחוק את הבלוק כדי לחזור אחורה. */
 
-/* ── האדמה שמאחורי הדף: הקטלוג צף עליה ── */
-body{background:#E9E3D9}
+/* ── רקע אחיד: הקרם על כל המסך, בלי אדמה מסביב ── */
+body{background:var(--bg)}
 .wrap,.grid,header,main,footer,.bnav{position:relative;z-index:1}
 
 /* ── התמונה: מוצר צף עם צל, במקום תיבה אפורה ──
@@ -551,28 +551,16 @@ input:focus,select:focus,.fld:focus{border-color:var(--accent)!important;
 .card .imgbox img{position:relative;z-index:1}
 .card{overflow:hidden}
 
-/* ═══════════ שכבה 3: מסגרת הלוקבוק ═══════════ */
-.lookbook{max-width:720px;margin:0 auto;background:var(--bg);
-  border-radius:0 0 30px 30px;position:relative;z-index:1}
-@media(min-width:900px){.lookbook{max-width:860px}}
-/* צל על שכבה קבועה ולא על המסגרת: אלמנט גבוה מאוד חורג ממגבלת הציור
-   של הדפדפן וכל מה שמתחת פשוט לא מצויר. */
-.lb-shadow{position:fixed;top:0;bottom:0;left:0;right:0;margin:0 auto;
-  width:100%;max-width:720px;pointer-events:none;z-index:0;
-  box-shadow:0 24px 60px rgba(42,36,32,.18)}
-@media(min-width:900px){.lb-shadow{max-width:860px}}
-/* הרשת בתוך המסגרת מתרווחת פחות */
-.lookbook .grid{max-width:100%;padding:0 16px}
-/* הפסים הדביקים והבאנר מתיישרים לפינות המסגרת */
-.lookbook > .promobar{border-radius:30px 30px 0 0}
-.lookbook .ebanner{border-radius:0}
-.lookbook .ebanner img{border-radius:0}
-/* הפינות העליונות של המסגרת נחתכות יחד עם התוכן */
-.lookbook{border-radius:30px;overflow:hidden}
-.lb-shadow{border-radius:30px}
-/* הרשת בתוך מסגרת צרה — שתי עמודות במקום ארבע */
-@media(min-width:700px){.lookbook .grid{
-  grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}}
+/* ═══ שכבה 3 (מתוקן): בלי מסגור — הקרם על כל הרוחב ═══
+   המסגרת הצפה בוטלה לבקשת המשתמש; נשאר רק רוחב תוכן מוגבל ומרוכז. */
+.lookbook{width:100%;max-width:none;margin:0;background:transparent;
+  border-radius:0;overflow:visible;position:relative;z-index:1}
+.lb-shadow{display:none}
+.lookbook .grid{max-width:1160px;margin-inline:auto;padding:0 18px}
+
+
+/* צ'יפ המומלצים — אותו סגנון של צ'יפ המועדפים */
+.chip.hotchip.on{background:var(--accent);border-color:var(--accent);color:#fff}
 </style>
 </head>
 <body>
@@ -657,7 +645,8 @@ input:focus,select:focus,.fld:focus{border-color:var(--accent)!important;
   </button>
 </div>
 <div class="toolbar">
-  <button class="chip favbtn" id="favchip" onclick="toggleFavOnly()">♥ המועדפים שלי</button>
+  <button class="chip hotchip" id="hotchip" onclick="toggleHotOnly()">✦ מומלצים</button>
+    <button class="chip favbtn" id="favchip" onclick="toggleFavOnly()">♥ המועדפים שלי</button>
   <button class="chip" id="resetchip" onclick="resetFilters()">↺ נקה הכל</button>
   <span class="spacer"></span>
   <select class="sort" id="sort" onchange="render()">
@@ -1082,7 +1071,7 @@ function buildCatTiles(){
   const hv=hg?hg.variants.find(x=>x.imgs&&x.imgs.length):null;
   const hotIm=hv?`<img src="${aesc(hv.imgs[0])}" loading="lazy" alt="" onerror="this.style.display='none'">`:'<span class="ph">🔥</span>';
   const hotTile=hg?`<button class="cattile ${curCat==='__hot__'?'active':''}" data-c="__hot__"><span class="ci">${hotIm}</span><span>${t('cat_hot')}</span></button>`:'';
-  el.innerHTML=allTile+hotTile+cats.map(c=>{
+  el.innerHTML=allTile+cats.map(c=>{   /* hotTile הוסר: 'מומלץ' עבר לצ'יפ סינון */
     let im;
     if(CAT_IMG[c]){
       im=`<img src="${CAT_IMG[c]}" loading="lazy" alt="" onerror="this.style.display='none'">`;
@@ -1880,6 +1869,18 @@ if(SB){var _pb=document.getElementById('payBtn');if(_pb)_pb.style.display='';loa
     document.addEventListener('DOMContentLoaded', wrap);
   else wrap();
 })();
+</script>
+
+<script>
+/* צ'יפ "מומלצים" — נשען על מנגנון הקטגוריה __hot__ שכבר קיים באתר,
+   ולכן אינו מוסיף לוגיקת סינון חדשה. */
+function toggleHotOnly(){
+  curCat = (curCat === '__hot__') ? '__all__' : '__hot__';
+  var c = document.getElementById('hotchip');
+  if (c) c.classList.toggle('on', curCat === '__hot__');
+  if (typeof buildCatTiles === 'function') buildCatTiles();
+  render();
+}
 </script>
 </body>
 </html>
